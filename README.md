@@ -10,6 +10,6 @@ You will need to have Alfred installed with the Powerpack.
 
 - Download the workflow file from this repo 
 - Run and Install it through Alfred 
-- Open Alfred and type "play {song name}" and press enter 
+- Open Alfred and type "as {song name}" and press enter 
 
 
