@@ -37,12 +37,14 @@
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>{query}</string>
-				<key>utf8</key>
-				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -79,7 +81,29 @@
 				<key>runningsubtext</key>
 				<string>Searching for songs...</string>
 				<key>script</key>
-				<string>python3 song.py "{query}"</string>
+				<string>#!/bin/bash
+
+platform=$(uname)
+arch=$(uname -m)
+
+# 获取当前脚本所在目录的完整路径
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &amp;&amp; pwd )"
+
+if [ "$platform" = "Darwin" ]; then
+    if [ "$arch" = "x86_64" ]; then
+        "$DIR/bin/searchdarwinamd64" "{query}"
+    elif [ "$arch" = "arm64" ]; then
+        "$DIR/bin/searchdarwinarm64" "{query}"
+    fi
+elif [ "$platform" = "Linux" ]; then
+    if [ "$arch" = "x86_64" ]; then
+        "$DIR/bin/searchlinuxamd64" "{query}"
+    elif [ "$arch" = "aarch64" ]; then
+        "$DIR/bin/searchlinuxarm64" "{query}"
+    fi
+elif [[ "$platform" == MINGW* ]] || [[ "$platform" == CYGWIN* ]]; then
+    "$DIR/bin/searchwindowsamd64.exe" "{query}"
+fi</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -108,18 +132,20 @@
 		<key>623363DC-6CBA-4EA3-A80D-932B309BEB83</key>
 		<dict>
 			<key>xpos</key>
-			<integer>375</integer>
+			<real>375</real>
 			<key>ypos</key>
-			<integer>165</integer>
+			<real>165</real>
 		</dict>
 		<key>ADEA333D-10C5-4916-8CC3-8DB9FA98591A</key>
 		<dict>
 			<key>xpos</key>
-			<integer>150</integer>
+			<real>150</real>
 			<key>ypos</key>
-			<integer>165</integer>
+			<real>165</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
